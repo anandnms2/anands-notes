@@ -1,0 +1,58 @@
+# Anands Notes - Coolify deployment (Docker Compose build pack)
+#
+# Services: db (PostgreSQL) + app (Anands Notes / Joplin Server). Both have health checks,
+# and the app only starts once the database reports healthy.
+#
+# In Coolify: New Resource -> Public Repository -> anandnms2/anands-notes -> Build Pack: Docker Compose.
+# Then set the domain for the "app" service (e.g. https://notes.anands.xyz). Coolify fills
+# SERVICE_URL_APP_22300 and SERVICE_PASSWORD_POSTGRES automatically.
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    volumes:
+      - anands-notes-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-joplin}
+      - POSTGRES_PASSWORD=${SERVICE_PASSWORD_POSTGRES}
+      - POSTGRES_DB=${POSTGRES_DATABASE:-joplin}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        JOPLIN_REF: ${JOPLIN_REF:-server-v3.7.2}
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - SERVICE_URL_APP_22300
+      - APP_PORT=22300
+      - APP_BASE_URL=${SERVICE_URL_APP}
+      - APP_NAME=Anands Notes
+      - DB_CLIENT=pg
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=${POSTGRES_USER:-joplin}
+      - POSTGRES_PASSWORD=${SERVICE_PASSWORD_POSTGRES}
+      - POSTGRES_DATABASE=${POSTGRES_DATABASE:-joplin}
+      # Set to true once the site is served over HTTPS (Coolify does this by default)
+      - COOKIES_SECURE=${COOKIES_SECURE:-false}
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:22300/api/ping').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 90s
+
+volumes:
+  anands-notes-db:

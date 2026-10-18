@@ -1,0 +1,261 @@
+/* Anands Notes - brand theme for Joplin Server web interface
+   Palette: orange #F68712, black #111111, greys */
+
+:root {
+	--a-orange: #f68712;
+	--a-orange-dark: #d9720a;
+	--a-orange-soft: #fff3e3;
+	--a-black: #111111;
+	--a-ink: #1b1b1b;
+	--a-grey-900: #222222;
+	--a-grey-700: #4a4a4a;
+	--a-grey-500: #8a8a8a;
+	--a-grey-200: #e4e4e4;
+	--a-grey-100: #f3f3f3;
+
+	/* Bulma 0.9 variables */
+	--bulma-primary: var(--a-orange);
+	--bulma-link: var(--a-orange-dark);
+	--bulma-info: var(--a-orange);
+}
+
+html, body {
+	background: var(--a-grey-100);
+	color: var(--a-ink);
+	font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ---------- Navbar ---------- */
+.navbar.is-dark {
+	background: var(--a-black);
+	border-bottom: 3px solid var(--a-orange);
+}
+.navbar.is-dark .navbar-item,
+.navbar.is-dark .navbar-link {
+	color: #ececec;
+}
+.navbar.is-dark a.navbar-item:hover,
+.navbar.is-dark a.navbar-item.is-active {
+	background: var(--a-grey-900);
+	color: var(--a-orange);
+}
+.navbar.is-dark a.navbar-item.is-active {
+	box-shadow: inset 0 -3px 0 var(--a-orange);
+}
+.navbar .navbar-item img.logo {
+	max-height: 2.2rem;
+}
+.navbar .logo-container .navbar-appname {
+	color: #fff;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+}
+.navbar .button.is-dark {
+	background: transparent;
+	border-color: #555;
+	color: #ddd;
+}
+.navbar .button.is-dark:hover {
+	border-color: var(--a-orange);
+	color: var(--a-orange);
+}
+
+/* ---------- Buttons ---------- */
+.button.is-primary,
+.button.is-info,
+.button.is-link {
+	background-color: var(--a-orange);
+	border-color: transparent;
+	color: var(--a-black);
+	font-weight: 600;
+}
+.button.is-primary:hover,
+.button.is-info:hover,
+.button.is-link:hover,
+.button.is-primary:focus,
+.button.is-info:focus,
+.button.is-link:focus {
+	background-color: var(--a-orange-dark);
+	color: var(--a-black);
+}
+.button.is-primary:focus:not(:active),
+.button.is-info:focus:not(:active),
+.button.is-link:focus:not(:active) {
+	box-shadow: 0 0 0 0.125em rgba(246, 135, 18, 0.3);
+}
+.navbar .button.is-info {
+	background: var(--a-orange);
+	color: var(--a-black);
+}
+
+/* ---------- Links, titles, inputs ---------- */
+a {
+	color: var(--a-orange-dark);
+}
+a:hover {
+	color: var(--a-black);
+}
+.title, h1, h2, h3 {
+	color: var(--a-black);
+}
+h2 {
+	border-bottom: 2px solid var(--a-grey-200);
+}
+h2::first-letter {
+	color: inherit;
+}
+.input:focus, .textarea:focus, .select select:focus {
+	border-color: var(--a-orange);
+	box-shadow: 0 0 0 0.125em rgba(246, 135, 18, 0.25);
+}
+.label {
+	color: var(--a-grey-900);
+}
+
+/* ---------- Cards / tables / notifications ---------- */
+.main-container {
+	background: #fff;
+	border: 1px solid var(--a-grey-200);
+	border-radius: 12px;
+	padding: 1.75rem 2rem;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+.table {
+	background: transparent;
+}
+.table thead th,
+.table th {
+	color: var(--a-grey-700);
+	border-bottom: 2px solid var(--a-orange);
+}
+.table.is-hoverable tbody tr:not(.is-selected):hover {
+	background: var(--a-orange-soft);
+}
+.notification.is-info {
+	background: var(--a-orange-soft);
+	color: var(--a-ink);
+	border-left: 4px solid var(--a-orange);
+}
+.notification.is-warning {
+	background: #fff8e1;
+	color: var(--a-ink);
+}
+.menu-list a {
+	border-radius: 6px;
+	color: var(--a-grey-700);
+}
+.menu-list a.is-active,
+.menu-list a:hover {
+	background: var(--a-orange);
+	color: var(--a-black);
+}
+.pagination-link.is-current {
+	background: var(--a-orange);
+	border-color: var(--a-orange);
+	color: var(--a-black);
+}
+.tag.is-info, .tag.is-link {
+	background: var(--a-orange);
+	color: var(--a-black);
+}
+.upgrade-button {
+	color: var(--a-orange-dark);
+}
+
+/* ---------- Login / basic layout ---------- */
+body.page-login {
+	background: var(--a-black);
+	min-height: 100vh;
+}
+body.page-login .main-container {
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+}
+.page-login .login-box {
+	background: #fff;
+	border-radius: 16px;
+	border-top: 6px solid var(--a-orange);
+	padding: 2.5rem 2rem;
+	margin: 3rem auto 1rem;
+	max-width: 460px;
+	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+.page-login .login-box .brand-mark {
+	display: block;
+	width: 84px;
+	height: 84px;
+	margin: 0 auto 1rem;
+}
+.page-login .login-box .title,
+.page-login .login-box .subtitle {
+	text-align: center;
+}
+.page-login .login-box .subtitle {
+	color: var(--a-grey-500);
+	font-size: 1rem;
+}
+.page-login .login-box .button.is-primary {
+	width: 100%;
+	padding: 1.2rem 0;
+	font-size: 1.05rem;
+}
+body.page-login .footer .content,
+body.page-login .footer .content a {
+	color: #bbb;
+	opacity: 0.9;
+}
+.footer .content {
+	color: var(--a-grey-500);
+}
+
+/* Published note page: full-bleed, no card */
+body.page-note { background: #fff; }
+.page-note main.main { padding: 0; }
+.page-note .main-container {
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+	padding: 0;
+	max-width: none;
+}
+html:has(body.page-note) { background: #fff; }
+.page-note .main-container.container { max-width: none !important; width: 100% !important; }
+
+/* ---------- Anands Notes theme: published note page ---------- */
+.page-note .navbar {
+	background: #111111;
+	border-bottom: 3px solid #f68712;
+	box-shadow: none;
+}
+.page-note .navbar .logo-text {
+	color: #ffffff;
+	font-size: 1.3em;
+}
+.page-note .navbar .navbar-item img {
+	max-height: 2.2rem;
+}
+.page-note .last-updated {
+	color: #8a8a8a;
+	opacity: 1;
+}
+.page-note h1.title {
+	color: #111111;
+}
+.page-note .note-body a {
+	color: #d9720a;
+}
+.page-note .note-body h1,
+.page-note .note-body h2 {
+	border-bottom: 2px solid #f68712;
+	padding-bottom: 0.2em;
+}
+.page-note .note-body blockquote {
+	border-left: 4px solid #f68712;
+	background: #fff3e3;
+}
+.page-note .note-body pre,
+.page-note .note-body code {
+	background: #f3f3f3;
+}
