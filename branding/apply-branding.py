@@ -27,7 +27,8 @@ def edit(rel, old, new):
 CSS = '<link rel="stylesheet" href="{{{global.baseUrl}}}/css/main.css" crossorigin="anonymous">'
 for layout in ('default', 'basic'):
     edit(f'src/views/layouts/{layout}.mustache', CSS,
-         CSS + '\n\t<link rel="stylesheet" href="{{{global.baseUrl}}}/css/anands-theme.css" crossorigin="anonymous">')
+         CSS + '\n\t<link rel="stylesheet" href="{{{global.baseUrl}}}/css/anands-theme.css" crossorigin="anonymous">'
+         '\n\t<script src="{{{global.baseUrl}}}/js/anands-theme.js"></script>')
 
 edit('src/env.ts', "APP_NAME: 'Joplin Server',", "APP_NAME: 'Anands Notes',")
 
