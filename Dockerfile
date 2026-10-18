@@ -88,9 +88,10 @@ ENV APP_PORT=22300
 ENV APP_NAME="Anands Notes"
 EXPOSE 22300
 
-# node:slim has no curl/wget, so the health check uses node itself
+# Joplin only answers requests whose Host matches APP_BASE_URL, so the check sends that host.
+# node:slim has no curl/wget, so it uses node itself.
 HEALTHCHECK --interval=30s --timeout=5s --start-period=90s --retries=5 \
-    CMD node -e "fetch('http://127.0.0.1:'+(process.env.APP_PORT||22300)+'/api/ping').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+    CMD node -e "const u=new URL(process.env.APP_BASE_URL||'http://localhost:22300');require('http').get({host:'127.0.0.1',port:22300,path:'/api/ping',headers:{Host:u.host}},r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"
 
 WORKDIR /home/$user/packages/server
 ENTRYPOINT ["tini", "--"]
