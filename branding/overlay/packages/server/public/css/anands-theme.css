@@ -259,3 +259,39 @@ html:has(body.page-note) { background: #fff; }
 .page-note .note-body code {
 	background: #f3f3f3;
 }
+
+/* ---------- SSO button on the login page ---------- */
+.page-login .sso-divider {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	color: var(--a-grey-500);
+	margin: 0.5rem 0 1rem;
+}
+.page-login .sso-divider::before,
+.page-login .sso-divider::after {
+	content: "";
+	flex: 1;
+	border-top: 1px solid var(--a-grey-200);
+}
+.page-login .sso-button {
+	display: flex;
+	width: 100%;
+	padding: 1.2rem 0;
+	font-size: 1.05rem;
+	font-weight: 600;
+	background: var(--a-black);
+	color: #fff;
+	border-color: var(--a-black);
+}
+.page-login .sso-button:hover {
+	background: var(--a-grey-900);
+	color: var(--a-orange);
+	border-color: var(--a-orange);
+}
+.page-login .sso-divider,
+.page-login .sso-button {
+	max-width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+}

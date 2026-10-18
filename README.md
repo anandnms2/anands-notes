@@ -14,6 +14,34 @@ This repo contains **no Joplin source code**. The Docker build downloads the pin
 
 Both services have health checks: `db` uses `pg_isready`, `app` calls `/api/ping`; `app` waits for `db` to be healthy.
 
+## Single sign-on (OpenID Connect)
+
+Built in and optional. **E-mail + password login keeps working**; SSO adds a "Sign in with SSO" button on the login page and a direct trigger link:
+
+    https://<your-domain>/sso/login          # goes straight to your identity provider
+    https://<your-domain>/sso/login?email=a@b.com   # same, with a login hint
+
+The **verified e-mail address is the identity**: the e-mail from the provider is matched to the Joplin user with that e-mail. If no user has it, login is refused with a clear message, unless `OIDC_AUTO_CREATE_USERS=true`, which creates the account on first SSO login. Accounts whose provider e-mail is marked unverified are rejected.
+
+Works with any OIDC provider (Authentik, Keycloak, Google, ...). Authentik example:
+
+1. Create an **OAuth2/OpenID provider** + application. Client type **Confidential**.
+2. Redirect URI (strict): `https://<your-domain>/sso/callback`
+3. Scopes: `openid`, `email`, `profile`. Pick a signing key (RS256 recommended; HS256 also works).
+4. Set these variables on the `app` service in Coolify, then redeploy:
+
+| Variable | Value |
+|---|---|
+| `OIDC_ENABLED` | `true` |
+| `OIDC_ISSUER_URL` | `https://auth.example.com/application/o/<slug>/` |
+| `OIDC_CLIENT_ID` / `OIDC_CLIENT_SECRET` | from the provider |
+| `OIDC_AUTO_CREATE_USERS` | `false` (default) or `true` |
+| `OIDC_BUTTON_LABEL`, `OIDC_SCOPES`, `OIDC_REDIRECT_URI` | optional |
+
+Implementation: authorization code flow with PKCE, signed state cookie, ID token checks (signature via JWKS, issuer, audience, expiry, nonce). No extra dependencies.
+
+**Sync clients:** the Joplin apps sync with e-mail + password. Apps that authorise through the browser (the *Applications* page) are supported too: the SSO button and `/sso/login?application_auth_id=...` carry that request through, and you land on the authorisation page after SSO (not tested with a real client yet). Users created through SSO have no password, so for plain e-mail sync they need to set one first.
+
 ## Local
 
     cp .env.example .env && docker compose up --build

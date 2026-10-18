@@ -14,7 +14,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends git python3 \
     && rm -rf /var/lib/apt/lists/*
 RUN git clone --depth 1 --branch ${JOPLIN_REF} https://github.com/laurent22/joplin.git /src
 COPY branding /branding
-RUN python3 /branding/apply-branding.py /src /branding/overlay
+RUN python3 /branding/apply-branding.py /src /branding/overlay \
+    && python3 /branding/apply-sso.py /src /branding/sso
 
 # -----------------------------------------------------------------------------
 # Build stage

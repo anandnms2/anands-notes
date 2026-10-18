@@ -47,6 +47,14 @@ services:
       - POSTGRES_DATABASE=${POSTGRES_DATABASE:-joplin}
       # Set to true once the site is served over HTTPS (Coolify does this by default)
       - COOKIES_SECURE=${COOKIES_SECURE:-false}
+      # --- OpenID Connect SSO (optional; e-mail + password login keeps working) ---
+      - OIDC_ENABLED=${OIDC_ENABLED:-false}
+      - OIDC_ISSUER_URL=${OIDC_ISSUER_URL:-}
+      - OIDC_CLIENT_ID=${OIDC_CLIENT_ID:-}
+      - OIDC_CLIENT_SECRET=${OIDC_CLIENT_SECRET:-}
+      - OIDC_SCOPES=${OIDC_SCOPES:-openid email profile}
+      - OIDC_BUTTON_LABEL=${OIDC_BUTTON_LABEL:-Sign in with SSO}
+      - OIDC_AUTO_CREATE_USERS=${OIDC_AUTO_CREATE_USERS:-false}
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:22300/api/ping').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
       interval: 30s
